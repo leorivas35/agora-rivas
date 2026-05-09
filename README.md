@@ -5,7 +5,7 @@
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
-<a href="https://www.linkedin.com/in/agora-rivas/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="https://www.linkedin.com/in/agora-rivas/" height="30" width="40" />Agora Rivas</a>
+<a href="https://www.linkedin.com/in/leo-rivas-5233b53a8/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="https://www.linkedin.com/in/agora-rivas/" height="30" width="40" />Agora Rivas</a>
 </p>
 
 <h3 align="left">Languages and Tools:</h3>
