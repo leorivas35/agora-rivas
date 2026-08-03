@@ -1,7 +1,7 @@
 <h1 align="center">Hi 👋, I'm Leo</h1>
-<h3 align="center">A passionate software engineer from Habana, Cuba.</h3>
+<h3 align="center">Software Engineer who finds cooperation as a path to connect with other beings. Leo enjoys playing the harmonica, reading, and whatever challenge brings a reward to his brain. There's more about Leo. Please send him a message.</h3>
 
-- 🔭 I’m currently working on **AgoraRivas**
+- 🔭 I’m currently working on my portfolio named **AgoraRivas**
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
