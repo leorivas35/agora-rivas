@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Leo</h1>
-< p> A software engineer who finds cooperation as a path to connect with other beings. Leo enjoys playing the harmonica, reading, and whatever challenge brings a reward to his brain. There's more about Leo. Please send him a message.</p>
+<p> A software engineer who finds cooperation as a path to connect with other beings. Leo enjoys playing the harmonica, reading, and whatever challenge brings a reward to his brain. There's more about Leo. Please send him a message.</p>
 
 - 🔭 I’m currently working on my portfolio named **AgoraRivas**
 
