@@ -127,3 +127,16 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Visual Studio IDE
+.vs/
+.vscode/
+*.sln.iml
+*.user
+*.userprefs
+*.suo
+
+# Visual Studio Code
+.vscode
+launch.json
+settings.json
