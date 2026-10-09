@@ -1,0 +1,25 @@
+name: Deploy to production
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'core-project-development'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Check out merged changes
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Deploy
+        run: ./scripts/deploy.sh
