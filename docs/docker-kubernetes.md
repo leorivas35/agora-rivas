@@ -24,9 +24,9 @@ COPY Core/Core.csproj Core/
 RUN dotnet restore API/API.csproj
 
 COPY . .
-RUN dotnet publish API/API.csproj \\
-    --configuration Release \\
-    --no-restore \\
+RUN dotnet publish API/API.csproj \
+    --configuration Release \
+    --no-restore \
     --output /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
