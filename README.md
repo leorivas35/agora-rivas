@@ -57,6 +57,38 @@ dotnet build
 dotnet run --project API
 ```
 
+### Run with Docker
+
+Prerequisites:
+
+- Docker Desktop running Linux containers
+- At least 2 GB of available memory for SQL Server
+
+Copy `.env.example` to `.env` and set strong values for `MSSQL_SA_PASSWORD` and `REDIS_PASSWORD`. Then, from the repository root, build and start the backend, SQL Server, and Redis:
+
+```powershell
+Copy-Item .env.example .env
+docker compose up --build
+```
+
+The API is available at <http://localhost:5202/weatherforecast>. The default host ports are 5202 (API), 1433 (SQL Server), and 6379 (Redis); all are bound to localhost. Override them in `.env` if a port is already in use.
+
+The backend image is named `agora-rivas-backend`. The Dockerfile builds with the .NET 10 SDK from Microsoft Container Registry (MCR) and runs on the ASP.NET 10 runtime image. SQL Server uses the `2025-latest` image from MCR, and Redis uses `8-alpine` from Docker Hub. SQL Server and Redis persist their data in named Docker volumes.
+
+Stop the services while keeping their data:
+
+```powershell
+docker compose down
+```
+
+To also remove the SQL Server and Redis data volumes:
+
+```powershell
+docker compose down --volumes
+```
+
+The current API does not yet connect to SQL Server or Redis: it does not reference the `Infrastructure` project or register a database context or Redis cache. Compose provides the services and connection-string environment variables for future application wiring; it does not add those integrations.
+
 ---
 
 <h3 align="left">Connect with me:</h3>

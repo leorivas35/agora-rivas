@@ -1,0 +1,17 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/node_modules/
+**/dist/
+**/coverage/
+**/*.user
+**/*.suo
+.git/
+.github/
+docs/
+angular-ui/
+.env
+.env.*
+**/.env
+**/.env.*
