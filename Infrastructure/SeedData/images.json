@@ -1,0 +1,16 @@
+[
+  {
+    "Id": 1,
+    "Format": "image/jpeg",
+    "Path": "media/images/coastal-trail.jpg",
+    "UploadedAt": "2026-09-14T10:30:00+00:00",
+    "UploaderId": "profile-001"
+  },
+  {
+    "Id": 2,
+    "Format": "image/png",
+    "Path": "media/images/city-garden.png",
+    "UploadedAt": "2026-09-17T15:45:00+00:00",
+    "UploaderId": null
+  }
+]

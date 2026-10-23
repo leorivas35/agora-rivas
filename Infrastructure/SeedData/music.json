@@ -1,0 +1,16 @@
+[
+  {
+    "Id": 1,
+    "Genre": "ambient",
+    "UploadedAt": "2026-09-18T08:15:00+00:00",
+    "UploadById": "profile-002",
+    "Path": "media/music/morning-current.flac"
+  },
+  {
+    "Id": 2,
+    "Genre": "jazz",
+    "UploadedAt": "2026-09-20T19:20:00+00:00",
+    "UploadById": null,
+    "Path": "media/music/blue-window.wav"
+  }
+]

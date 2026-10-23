@@ -1,0 +1,28 @@
+[
+  {
+    "Id": "profile-001",
+    "UserName": "alex.morgan",
+    "NormalizedUserName": "ALEX.MORGAN",
+    "Email": "alex.morgan@example.test",
+    "NormalizedEmail": "ALEX.MORGAN@EXAMPLE.TEST",
+    "EmailConfirmed": true,
+    "PhoneNumber": null,
+    "PhoneNumberConfirmed": false,
+    "TwoFactorEnabled": false,
+    "LockoutEnabled": false,
+    "AccessFailedCount": 0
+  },
+  {
+    "Id": "profile-002",
+    "UserName": "sam.rivera",
+    "NormalizedUserName": "SAM.RIVERA",
+    "Email": "sam.rivera@example.test",
+    "NormalizedEmail": "SAM.RIVERA@EXAMPLE.TEST",
+    "EmailConfirmed": false,
+    "PhoneNumber": null,
+    "PhoneNumberConfirmed": false,
+    "TwoFactorEnabled": false,
+    "LockoutEnabled": false,
+    "AccessFailedCount": 0
+  }
+]
