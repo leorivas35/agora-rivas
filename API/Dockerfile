@@ -5,6 +5,7 @@ WORKDIR /src
 
 COPY AgoraRivas.slnx ./
 COPY API/API.csproj API/
+COPY API.Tests/API.Tests.csproj API.Tests/
 COPY Core/Core.csproj Core/
 COPY Infrastructure/Infrastructure.csproj Infrastructure/
 RUN dotnet restore AgoraRivas.slnx
@@ -13,6 +14,7 @@ COPY .editorconfig ./
 COPY Core/ Core/
 COPY Infrastructure/ Infrastructure/
 COPY API/ API/
+COPY API.Tests/ API.Tests/
 RUN dotnet build AgoraRivas.slnx -c Release --no-restore
 RUN dotnet publish API/API.csproj -c Release --no-restore -o /app/publish -p:UseAppHost=false
 
