@@ -15,6 +15,12 @@ services:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
       ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=AgoraRivas;User Id=sa;Password=${MSSQL_SA_PASSWORD:?Set MSSQL_SA_PASSWORD in .env};TrustServerCertificate=True"
       ConnectionStrings__Redis: "redis:6379,password=${REDIS_PASSWORD:?Set REDIS_PASSWORD in .env},abortConnect=false"
+      Jwt__SigningKey: ${JWT_SIGNING_KEY:?Set JWT_SIGNING_KEY in .env}
+      Authentication__Google__ClientId: ${GOOGLE_CLIENT_ID:-}
+      Authentication__Google__ClientSecret: ${GOOGLE_CLIENT_SECRET:-}
+      Authentication__GitHub__ClientId: ${GITHUB_CLIENT_ID:-}
+      Authentication__GitHub__ClientSecret: ${GITHUB_CLIENT_SECRET:-}
+      Authentication__AllowedReturnOrigins__0: ${AUTH_ALLOWED_RETURN_ORIGIN:-}
     ports:
       - "127.0.0.1:${BACKEND_PORT:-5202}:8080"
 
