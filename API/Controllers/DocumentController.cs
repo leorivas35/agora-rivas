@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Core.Constants;
+using Core.Interfaces;
+using Core.Entities;
 namespace API.Controllers;
 
 [EnableRateLimiting(ApiConst.RateLimitPolicy)]
-public class DocumentController : ControllerBase
+public class DocumentController(IUnitOfWork unitOfWork) : BaseController
 {
     [HttpGet]
     public IActionResult GetDocuments()

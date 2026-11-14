@@ -2,17 +2,20 @@ using Core.Constants;
 
 namespace Core.Entities;
 
+/// <summary>
+/// Represents a document and its metadata, including its title, author, content type,
+/// storage URI, size in bytes, and document type. For information about Azure Blob Storage,
+/// see <see href="https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview">the Azure Blob Storage overview</see>.
+/// </summary>
 public class Document : BaseEntity
-{
-    public required string FileName { get; set; }
+{    
     public required string Title { get; set; }
-    public required string Author { get; set; }
+    public string? Author { get; set; }    
     public required string ContentType { get; set; }   // "image/png", "application/pdf"
-    public required long SizeInBytes { get; set; }
-    public required string StoragePath { get; set; }   // or a blob URL
-    /// <summary>
-    /// Enum representing the type of the document. For example, it could indicate whether the document is a Resume, Cover Letter, Book, or any other specific type.
-    /// </summary>
+    /// <summary>Public URL or SAS URL to access the document.</summary>
+    public string? Uri { get; set; } 
+    public string? SizeInBytes { get; set; }  
+    /// <summary>Enum representing the type of the document, such as a Resume, Cover Letter, or Book.</summary>
     public required DocumentType Type { get; set; } 
 
 }

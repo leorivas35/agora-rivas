@@ -5,7 +5,8 @@ using Infrastructure.Configurations;
 
 namespace Infrastructure.Data;
 
-public class AgoraRivasContext(DbContextOptions<AgoraRivasContext> options) : IdentityDbContext<Profile>(options)
+public class AgoraRivasContext(DbContextOptions<AgoraRivasContext> options) 
+: IdentityDbContext<AppUser>(options)
 {
     public DbSet<Document> Documents { get; set; }
     public DbSet<Image> Images { get; set; }

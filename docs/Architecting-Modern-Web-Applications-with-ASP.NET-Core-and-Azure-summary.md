@@ -1,15 +1,18 @@
 # Summary: *Architecting Modern Web Applications with ASP.NET Core and Azure*
 
-**Source:** Steve "ardalis" Smith, Microsoft, edition 8.0 (updated for .NET 8 / ASP.NET Core 8)  
-**Scope:** A practical architecture guide for cloud-hosted, monolithic ASP.NET Core web applications. It uses the [eShopOnWeb](https://github.com/dotnet/eShopOnWeb) reference application to illustrate its recommendations.
+## Table of Contents
 
-## Executive summary
+- [1. Characteristics of modern web applications](#1-characteristics-of-modern-web-applications)
+- [2. Architectural principles](#2-architectural-principles)
+- [3. Common web application architectures](#3-common-web-application-architectures)
+- [4. Client-side web technologies](#4-client-side-web-technologies)
+- [5. Working with data](#5-working-with-data)
+- [6. Testing ASP.NET Core applications](#6-testing-aspnet-core-applications)
+- [7. Development process for Azure](#7-development-process-for-azure)
+- [8. Azure hosting recommendations](#8-azure-hosting-recommendations)
+- [9. Practical implementation checklist](#9-practical-implementation-checklist)
+- [10. Core message](#10-core-message)
 
-The book recommends building modern web applications as **modular monoliths** before adopting a distributed architecture. ASP.NET Core is positioned as a good fit because it is cross-platform, modular, performant, dependency-injection friendly, and well suited to container and cloud deployment.
-
-The central design rule is to keep business rules independent of UI, database, and infrastructure details. Use **Clean Architecture** and dependency inversion so that dependencies point inward toward the domain and application abstractions. This makes the system easier to test, change, and eventually split into bounded contexts or services if that becomes necessary.
-
-For most applications, prefer a simple operational model: automated tests, CI/CD, monitoring, and managed Azure services. Azure App Service is the usual default for hosting; use containers, AKS, or virtual machines only when their additional control and operational complexity are justified.
 
 ## 1. Characteristics of modern web applications
 
@@ -26,20 +29,10 @@ Key characteristics:
 
 The eShopOnWeb reference application is intentionally small: it demonstrates an online-store domain and the recommended organization without obscuring the architecture with business complexity.
 
-## 2. Choosing traditional web applications, SPAs, and Blazor
+[Back to Top](#table-of-contents)
 
-Choose the UI delivery model based on user interaction requirements, search visibility, team skills, and operating complexity.
 
-| Approach | Best fit | Main trade-off |
-|---|---|---|
-| Traditional server-rendered app | Content-heavy, read-mostly, SEO-sensitive, or JavaScript-optional sites | Less fluid for highly interactive workflows |
-| JavaScript/TypeScript SPA | Rich, authenticated, highly interactive client experiences; applications that already expose APIs | More client-side architecture, security, tooling, and framework-churn burden |
-| Blazor Server or WebAssembly | Rich UI where the team prefers C# and Razor over substantial JavaScript | Must choose between persistent server connectivity and client-side WebAssembly constraints |
-| Hybrid | Mostly traditional site with isolated rich interactions | Requires clear boundaries between the application styles |
-
-Traditional applications naturally provide distinct, bookmarkable URLs and are often easier for non-developers to maintain. SPAs are strongest for complex forms and authenticated experiences that do not depend on search-engine indexing. Blazor provides a third path: server-side Blazor uses a persistent SignalR connection, while Blazor WebAssembly runs .NET code in the browser and can share code and DTOs with the server.
-
-## 3. Architectural principles
+## 2. Architectural principles
 
 The architecture should optimize for long-term maintainability, not merely initial delivery speed.
 
@@ -51,7 +44,10 @@ The architecture should optimize for long-term maintainability, not merely initi
 - **Persistence ignorance:** Avoid forcing domain entities to inherit persistence-specific base classes, implement persistence interfaces, use persistence attributes, or otherwise encode database requirements into the domain model.
 - **Bounded contexts:** Split large problem domains into independent conceptual modules, each with its own model and ideally its own data store. Integrate contexts through APIs or messages, not a shared database.
 
-## 4. Common web application architectures
+[Back to Top](#table-of-contents)
+
+
+## 3. Common web application architectures
 
 A monolith is a single deployable unit whose core behavior runs in one process. It can still be internally modular and can scale horizontally by running multiple instances. A one-project application is a reasonable starting point for a small system, but folder-only separation becomes hard to maintain as the codebase grows.
 
@@ -68,7 +64,9 @@ This arrangement permits testing business behavior without a database or web ser
 
 Containers do not require microservices. A modular monolith can be packaged in a single container to obtain consistent deployment and environmental isolation without distributed-system complexity.
 
-## 5. Client-side web technologies
+[Back to Top](#table-of-contents)       
+
+## 4. Client-side web technologies
 
 Keep HTML (content and structure), CSS (presentation), and JavaScript (behavior) separate. Favor reusable classes and external stylesheets rather than inline styles and element-specific rules. Sass or LESS can reduce CSS duplication through variables and language features.
 
@@ -81,27 +79,20 @@ JavaScript frameworks such as Angular, React, and Vue can support rich browser a
 
 Use a framework only when the interaction requirements justify its complexity. Blazor is an alternative for teams that want rich UI composition while remaining primarily in .NET and Razor.
 
-## 6. Developing ASP.NET Core MVC applications
+[Back to Top](#table-of-contents)
 
-ASP.NET Core maps incoming requests to responses through middleware and, at a higher level, routing, controllers, actions, Razor Pages, model binding, filters, authorization, and validation.
 
-### MVC and Razor Pages
-
-- **Razor Pages** are a strong default for new page-based features. A page's markup and its page model are colocated, reducing the tendency toward large controllers with unrelated actions.
-- **MVC controllers and views** remain appropriate for APIs, view-oriented applications, and lower-friction migrations from ASP.NET MVC 5 or earlier.
-- The templates are starting points, not permanent boundaries: one application can use APIs, MVC views, and Razor Pages together.
-
-### Application structure and dependencies
+### 4.1 Application structure and dependencies
 
 Keep controllers and page models thin: they should translate HTTP requests into application work and select responses, not contain core business rules. Register dependencies in the composition root (`Program.cs`), request them through constructors, and depend on abstractions where infrastructure may vary.
 
 Use feature organization when it makes behavior easier to discover: colocate the views, models, handlers, and related code for a feature rather than scattering them solely by technical type. Handle cross-cutting concerns such as authorization, logging, exception handling, caching, and validation centrally through middleware, filters, or dedicated services.
 
-### Hosting and deployment
+### 4.2 Hosting and deployment
 
 Kestrel is ASP.NET Core's cross-platform web server. Production deployments commonly place it behind a reverse proxy that provides TLS termination and related edge concerns. A containerized app commonly runs Kestrel in the container behind a reverse proxy. Azure Application Gateway can supply load balancing, TLS options, routing, diagnostics, WebSocket support, and a web application firewall.
 
-## 7. Working with data
+## 5. Working with data
 
 Treat data access as infrastructure. Keep its implementation outside the domain and application core so the system remains testable and can evolve.
 
@@ -121,7 +112,9 @@ Use caching deliberately:
 
 For Blazor WebAssembly clients, centralize `HttpClient` configuration, verify responses, and attach authentication tokens safely. Shared DTO projects can prevent server and client contracts from drifting.
 
-## 8. Testing ASP.NET Core applications
+[Back to Top](#table-of-contents)
+
+## 6. Testing ASP.NET Core applications
 
 Testing is an architectural outcome: code with explicit dependencies and separated concerns can be tested automatically at the appropriate level.
 
@@ -135,7 +128,9 @@ Follow the testing pyramid: many fast unit tests, fewer integration tests, and o
 
 ASP.NET Core's test host allows functional tests to exercise a complete MVC/Razor Pages stack in memory. This offers stronger coverage than isolated tests without requiring a deployed server or fragile network configuration.
 
-## 9. Development process for Azure
+[Back to Top](#table-of-contents)
+
+## 7. Development process for Azure
 
 Develop locally with either Visual Studio or Visual Studio Code plus the .NET CLI. Keep application code in source control, run automated tests, and automate build and deployment through Azure DevOps or GitHub Actions.
 
@@ -150,7 +145,9 @@ The recommended delivery loop is:
 
 The key point is that Azure deployment should be a repeatable pipeline, not a manual publishing procedure.
 
-## 10. Azure hosting recommendations
+[Back to Top](#table-of-contents)
+
+## 8. Azure hosting recommendations
 
 Choose the least operationally complex Azure service that satisfies the application's needs.
 
@@ -165,7 +162,9 @@ Azure App Service is the normal recommendation for monolithic ASP.NET Core appli
 
 Select managed services for supporting processes and data where possible. Design the deployed architecture around reliability, scalability, secure access, monitoring, and operational simplicity.
 
-## Practical implementation checklist
+[Back to Top](#table-of-contents)
+
+## 9. Practical implementation checklist
 
 - Start with a modular monolith unless independent deployment and distributed ownership are proven needs.
 - Put domain and application rules in inner projects; place EF Core, Azure SDKs, HTTP clients, and UI frameworks at the edges.
@@ -177,6 +176,10 @@ Select managed services for supporting processes and data where possible. Design
 - Automate builds, tests, deployment, and monitoring from source control.
 - Default to Azure App Service; add containers, AKS, Application Gateway, or VMs only for specific justified requirements.
 
-## Core message
+[Back to Top](#table-of-contents)
+
+## 10. Core message
+
+[Back to Top](#table-of-contents)
 
 The book's consistent recommendation is to favor **simple, modular, testable, and operable designs**. ASP.NET Core and Azure provide many advanced options, but the right starting point for most systems is a cleanly organized monolith with explicit dependencies, automated validation, and managed cloud hosting. Complexity should be introduced only in response to concrete product, scale, or operational needs.

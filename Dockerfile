@@ -14,7 +14,6 @@ COPY .editorconfig ./
 COPY Core/ Core/
 COPY Infrastructure/ Infrastructure/
 COPY API/ API/
-COPY API.Tests/ API.Tests/
 RUN dotnet build AgoraRivas.slnx -c Release --no-restore
 RUN dotnet publish API/API.csproj -c Release --no-restore -o /app/publish -p:UseAppHost=false
 
