@@ -22,6 +22,44 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Core.Entities.AgoraFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<long>("SizeInBytes")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Uri")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Documents");
+                });
+
             modelBuilder.Entity("Core.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -96,38 +134,21 @@ namespace Infrastructure.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("Core.Entities.Document", b =>
+            modelBuilder.Entity("Core.Entities.DocumentContent", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("DocumentId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContentType")
+                    b.Property<byte[]>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("SizeInBytes")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("DocumentId");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Uri")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Documents");
+                    b.ToTable("DocumentContents");
                 });
 
             modelBuilder.Entity("Core.Entities.Image", b =>
@@ -325,6 +346,17 @@ namespace Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("Profile");
                 });
 
+            modelBuilder.Entity("Core.Entities.DocumentContent", b =>
+                {
+                    b.HasOne("Core.Entities.AgoraFile", "Document")
+                        .WithOne("Content")
+                        .HasForeignKey("Core.Entities.DocumentContent", "DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Document");
+                });
+
             modelBuilder.Entity("Core.Entities.Image", b =>
                 {
                     b.HasOne("Core.Entities.Profile", "Uploader")
@@ -389,13 +421,19 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.Profile", b =>
                 {
-                    b.HasOne("Core.Entities.Document", "AboutMe")
+                    b.HasOne("Core.Entities.AgoraFile", "AboutMe")
                         .WithMany()
                         .HasForeignKey("AboutMeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AboutMe");
+                });
+
+            modelBuilder.Entity("Core.Entities.AgoraFile", b =>
+                {
+                    b.Navigation("Content")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

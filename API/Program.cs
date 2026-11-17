@@ -5,39 +5,54 @@ using Core.Constants;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-#region Add services to the container.
+// Add services to the container.
 
-builder.Services.AddControllers()
-    .AddJsonOptions(o => 
-    { 
-        o.JsonSerializerOptions.Converters.Add(
-            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, allowIntegerValues: false));
-    });
-
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddApplicationServices();
 builder.Services.AddCors();
 builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<AgoraRivasContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), 
-    o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));    
-           
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+
 });
+
 builder.Services.AddIdentityApiEndpoints<AppUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AgoraRivasContext>();
-#endregion
+
+builder.Services.AddControllers()
+    .AddJsonOptions(o =>
+    {
+        o.JsonSerializerOptions.Converters.Add(
+            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, allowIntegerValues: false));
+    })
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var problem = new ValidationProblemDetails(context.ModelState)
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Title = "Request validation failed."
+            };
+            return new BadRequestObjectResult(problem);
+        };
+    });
+
+
 
 WebApplication app = builder.Build();
 
-#region Configure the HTTP request pipeline.
+//Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -51,13 +66,12 @@ app.UseCors(x => x
     .WithOrigins("http://localhost:4003", "https://localhost:4003"));
 
 app.UseAuthentication();
-app.UseRateLimiter();
 app.UseAuthorization();
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<AppUser>();
 app.Run();
-#endregion
+
 
 
 // builder.Services.AddRateLimiter(options =>

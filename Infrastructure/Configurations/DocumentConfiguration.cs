@@ -4,14 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Configurations;
 
-public class DocumentConfiguration : IEntityTypeConfiguration<Document>
+public class DocumentConfiguration : IEntityTypeConfiguration<AgoraFile>
 {
-    public void Configure(EntityTypeBuilder<Document> builder)
-    {
-        builder.Property(d => d.Title).IsRequired();
-        builder.Property(d => d.ContentType).IsRequired();
-        builder.Property(d => d.Type)
-            .HasConversion<string>()
-            .IsRequired();        
+    public void Configure(EntityTypeBuilder<AgoraFile> builder)
+    {        
+        builder.Property(d => d.Title).HasMaxLength(200).IsRequired();        
+        builder.Property(d => d.ContentType).HasMaxLength(150).IsRequired();
+        builder.Property(d => d.Extension).HasMaxLength(10).IsRequired();        
+        builder.HasOne(d => d.Content)
+               .WithOne(c => c.Document)
+               .HasForeignKey<DocumentContent>(c => c.DocumentId)
+               .OnDelete(DeleteBehavior.Cascade);
     }
 }
