@@ -5,6 +5,7 @@ WORKDIR /src
 
 COPY AgoraRivas.slnx ./
 COPY API/API.csproj API/
+COPY API.Tests/API.Tests.csproj API.Tests/
 COPY Core/Core.csproj Core/
 COPY Infrastructure/Infrastructure.csproj Infrastructure/
 RUN dotnet restore AgoraRivas.slnx

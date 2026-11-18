@@ -5,6 +5,10 @@ This wiki contains information and documentation related to Angular development.
 ## Table of Contents
 - [Getting Started](#getting-started)
 - [Folder Structure](#folder-structure)
+- [References](#references)
+- [Best Practices](#best-practices)
+- [Performance Optimization](#performance-optimization)
+- [Troubleshooting](#troubleshooting)
 - [Components](#components)
 - [Services](#services)
 - [Routing](#routing)
@@ -13,14 +17,11 @@ This wiki contains information and documentation related to Angular development.
 - [State Management](#state-management)
 - [Testing](#testing)
 - [Deployment](#deployment)
-- [Best Practices](#best-practices)
-- [Troubleshooting](#troubleshooting)
-- [Performance Optimization](#performance-optimization)
 - [Security](#security)
 
 ---
-# Getting Started
-## Create a new project
+## Getting Started
+### Create a new project
 To create a new Angular project, you need to have Node.js and Angular CLI installed on your system. Once installed, you can use the Angular CLI to generate a new project with your preferred configuration.
 
 References:
@@ -81,7 +82,8 @@ Tailwind CSS: You can pair Tailwind with either SCSS or standard CSS in Angular.
 Recommendation
 Unless you have a strict requirement for vanilla CSS, select SCSS when running ng new my-project. It offers the greatest flexibility, ecosystem compatibility, and maintainability for modern Angular applications.
 
----
+[Back to Top](#table-of-contents)
+
 
 ## Folder Structure
 
@@ -99,6 +101,7 @@ Understanding this structure helps you organize your code effectively and follow
 
 The industry best practice is a Feature-Driven Architecture combined with a clear separation of Core (global/singleton) and Shared (reusable UI) concerns.
 
+```text
 src/
 ├── app/
 │   ├── core/                  # Global singletons, guards, interceptors, services
@@ -137,18 +140,26 @@ src/
 │
 ├── assets/                    # Static media, icons, and i18n JSON files
 └── styles/                    # Global SCSS files (variables, mixins, themes)
+```
 
-Core Principles & Best Practices
-1. Group by Feature (Domain-Driven)
-Avoid legacy grouping by file type (e.g., placing all components in one global /components folder).
+[Back to Top](#table-of-contents)
 
-Keep components, services, sub-routes, and models specific to a business feature grouped inside app/features/<feature-name>/.
 
-This makes features modular, easier to test, and ready for lazy loading.
+## References
+### from '@angular/common'
+[NgOptimizedImage Documentation](https://angular.io/api/common/NgOptimizedImage)
+#### NgOptimizedImage
 
-2. Standalone-First Setup
-Avoid using NgModules unless working with legacy dependencies.
+The `NgOptimizedImage` directive is used to optimize image loading in Angular applications. It provides features like automatic lazy loading, responsive image handling, and improved performance by leveraging modern image formats and browser capabilities.
 
+Example usage:
+
+```html
+<img ngOptimizedImage src="example.jpg" width="600" height="400" alt="Example image">
+```
+[Back to Top](#table-of-contents)
+
+## Best Practices
 Use app.routes.ts with loadChildren or loadComponent for lazy loading feature routes:
 
 ```ts
@@ -166,13 +177,6 @@ export const routes: Routes = [
   }
 ];
 ```
-
-3. Strict Separation of core vs shared
-app/core/: Import only once at root level. Place application-wide singletons, authentication logic, HTTP interceptors, global state, and guards here.
-
-app/shared/: Presentational components, UI controls, pipes, and directives that are reused across multiple features. Shared elements should be stateless whenever possible.
-
-4. Clean Import Aliases (TypeScript Path Mapping)
 Configure path aliases in your tsconfig.json to prevent long relative imports (../../../../):
 
 ```json
@@ -188,5 +192,4 @@ Configure path aliases in your tsconfig.json to prevent long relative imports (.
   }
 }
 ```
-
----
+[Back to Top](#table-of-contents)
